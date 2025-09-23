@@ -191,6 +191,18 @@ while True:
             continue
         if dec.lower()=='no':
             break
+            
+def cargar_arch(ruta):
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            print("Contenido del archivo:")
+            print(f.read())
+    except FileNotFoundError:
+        print(f"Error: El archivo '{ruta}' no se encontró.")
+    except Exception as e:
+        print(f"Otro error al abrir el archivo: {e}")
+            
 
            
+
 
