@@ -104,7 +104,7 @@ def realizar_compra():
     # guarda ticket
     ticket = {
         "id": len(registro_compras) + 1,
-        "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "fecha": datetime.now().strftime("%d/%m/%Y"),
         "items": carrito,
         "subtotal": subtotal,
         "descuento": descuento,
@@ -174,4 +174,5 @@ def menu():
 
 if __name__ == "__main__":
     menu()
+
 
