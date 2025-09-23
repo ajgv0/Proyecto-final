@@ -149,6 +149,16 @@ def cambio_usuario()
 def menu():
     # menú principal
     while True:
+        try:
+            nombre=('Ingresar Usuario: ')
+            contraseña=('Ingresar contraseña: ')
+            if nombre in usuarios and usuario[nombre]==contraseña:
+                print(f'Bienvanido {nombre}')
+                print('Espere 5 segundos, estamos preparando todo')
+                time.sleep(5)
+                continue
+            else:
+                print('Usuario y/o contraseña no encontrados, intente de nuevo´)
         print("\nMenú principal")
         print("1) Ver inventario")
         print("2) Realizar compra")
@@ -174,5 +184,6 @@ def menu():
 
 if __name__ == "__main__":
     menu()
+
 
 
