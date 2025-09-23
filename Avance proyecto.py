@@ -144,21 +144,10 @@ def rellenar_stock():
     print(f"Se añadieron {cantidad} unidades a {inventario[codigo]['nombre']}.")
     print(f"Nuevo stock: {inventario[codigo]['stock']}\n")
 
-def cambio_usuario()
 
 def menu():
     # menú principal
-    while True:
-        try:
-            nombre=('Ingresar Usuario: ')
-            contraseña=('Ingresar contraseña: ')
-            if nombre in usuarios and usuario[nombre]==contraseña:
-                print(f'Bienvanido {nombre}')
-                print('Espere 5 segundos, estamos preparando todo')
-                time.sleep(5)
-                continue
-            else:
-                print('Usuario y/o contraseña no encontrados, intente de nuevo´)
+    while True: 
         print("\nMenú principal")
         print("1) Ver inventario")
         print("2) Realizar compra")
@@ -182,8 +171,26 @@ def menu():
         else:
             print("Opción no válida.\n")
 
-if __name__ == "__main__":
-    menu()
+import time
+while True:   
+    nombre=input('Ingresar Usuario: ')
+    contraseña=input('Ingresar contraseña: ')      
 
+    if nombre in usuarios and usuarios[nombre]==contraseña:
+        print('\n')
+        print(f'Bienvenido {nombre}')
+        print('\n')
+        print('Espere 5 segundos, estamos preparando todo')
+        time.sleep(5)
+        menu()
+    else:
+        print("Usuario y/o contraseña no encontrados")
+        dec=input("¿Desea intentarlo de nuevo?: ")
+        if dec.lower()=='si':
+            print('\n')
+            continue
+        if dec.lower()=='no':
+            break
 
+           
 
