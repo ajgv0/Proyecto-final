@@ -1,5 +1,8 @@
 from datetime import datetime
 
+usuarios=dict([
+    ('Edgar Juan', '829103'),
+])
 # Productos iniciales
 inventario = {
     "A1": {"nombre": "Martillo",       "precio": 180.0,  "stock": 25},
@@ -141,6 +144,8 @@ def rellenar_stock():
     print(f"Se añadieron {cantidad} unidades a {inventario[codigo]['nombre']}.")
     print(f"Nuevo stock: {inventario[codigo]['stock']}\n")
 
+def cambio_usuario()
+
 def menu():
     # menú principal
     while True:
@@ -169,3 +174,4 @@ def menu():
 
 if __name__ == "__main__":
     menu()
+
