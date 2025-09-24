@@ -183,6 +183,7 @@ while True:
         print('Espere 5 segundos, estamos preparando todo')
         time.sleep(5)
         menu()
+        break
     else:
         print("Usuario y/o contraseña no encontrados")
         dec=input("¿Desea intentarlo de nuevo?: ")
@@ -204,5 +205,6 @@ def cargar_arch(ruta):
             
 
            
+
 
 
