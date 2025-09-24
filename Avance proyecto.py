@@ -1,4 +1,5 @@
 from datetime import datetime
+import threading
 
 usuarios=dict([
     ('Edgar Juan', '829103'),
@@ -172,27 +173,55 @@ def menu():
             print("Opción no válida.\n")
 
 import time
-while True:   
-    nombre=input('Ingresar Usuario: ')
-    contraseña=input('Ingresar contraseña: ')      
+def iniciar_sesion():
+    global inactividad
+    while True:   
+        nombre = input('Ingresar Usuario: ')
+        inactividad = False 
+        contraseña = input('Ingresar contraseña: ')
+        inactividad = False 
 
-    if nombre in usuarios and usuarios[nombre]==contraseña:
-        print('\n')
-        print(f'Bienvenido {nombre}')
-        print('\n')
-        print('Espere 5 segundos, estamos preparando todo')
-        time.sleep(5)
-        menu()
-        break
-    else:
-        print("Usuario y/o contraseña no encontrados")
-        dec=input("¿Desea intentarlo de nuevo?: ")
-        if dec.lower()=='si':
+        if nombre in usuarios and usuarios[nombre] == contraseña:
             print('\n')
-            continue
-        if dec.lower()=='no':
+            print(f'Bienvenido {nombre}')
+            print('\n')
+            print('Espere 5 segundos, estamos preparando todo')
+            time.sleep(5)
+            menu()
             break
-            
+        else:
+            print("Usuario y/o contraseña no encontrados")
+            dec = input("¿Desea intentarlo de nuevo?: ")
+            inactividad = False
+            if dec.lower() == 'si':
+                print('\n')
+                continue
+            elif dec.lower() == 'no':
+                break
+            else:
+                print("Respuesta inválida")
+inactividad=True
+def medir_tiempo():
+    global inactividad
+    while True:
+        time.sleep(10)
+        if inactividad:
+            while True:
+                dec=input("Límite de tiempo alcanzado, desea continuar?: ").lower()
+                if dec=="si":
+                    print("Regresando...")
+                    print('\n')
+                    break
+                elif dec=="no":
+                    print("Saliendo del programa")
+                    exit()
+                else:
+                    print("Respuesta inválida, intenta de nuevo")
+        else:
+            inactividad=True
+hilo_inactividad = threading.Thread(target=medir_tiempo, daemon=True)
+hilo_inactividad.start()
+                
 def cargar_arch(ruta):
     try:
         with open(ruta, "r", encoding="utf-8") as f:
@@ -202,9 +231,8 @@ def cargar_arch(ruta):
         print(f"Error: El archivo '{ruta}' no se encontró.")
     except Exception as e:
         print(f"Otro error al abrir el archivo: {e}")
-            
-
-           
+        
+iniciar_sesion()
 
 
 
