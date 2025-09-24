@@ -235,4 +235,14 @@ def cargar_arch(ruta):
 iniciar_sesion()
 
 
+archivo = open("Materiales nuevos.txt", "a")
+
+archivo.write('Cemento (50kg) \n')
+archivo.write('Escuadra \n')
+archivo.write('Machetes \n')
+archivo.write('Grapadora \n')
+archivo.write('Guantes \n')
+archivo.write('Casco de proteccion \n')
+
+archivo.close()
 
