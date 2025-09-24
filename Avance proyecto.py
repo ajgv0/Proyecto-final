@@ -2,7 +2,7 @@ from datetime import datetime
 import threading
 
 usuarios=dict([
-    ('Edgar Juan', '123456'),
+    ('Edgar Pancracio', '123456'),
 ])
 # Productos iniciales
 inventario = {
@@ -245,5 +245,6 @@ archivo.write('Guantes \n')
 archivo.write('Casco de proteccion \n')
 
 archivo.close()
+
 
 
