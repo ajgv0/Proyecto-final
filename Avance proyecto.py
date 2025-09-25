@@ -1,8 +1,10 @@
 from datetime import datetime
 import time, os
 
-usuarios = {'Edgar Pancracio': '123456'}
+# Diccionario de usuarios con su contraseña
+usuarios = {'Edgar': '123456'}
 
+# Inventario inicial con códigos, nombre, precio y stock
 inventario = {
     "A1": {"nombre": "Martillo",       "precio": 180.0,  "stock": 25},
     "A2": {"nombre": "Desarmador",     "precio": 75.0,   "stock": 40},
@@ -12,8 +14,10 @@ inventario = {
 }
 
 LIMITE_REABASTO = 5      # si baja de aquí, conviene surtir
-registro_compras = []    # tickets
+registro_compras = []    # aquí se guardan los tickets de las compras
+fecha_sesion = ""        # fecha que pide el sistema al inicio
 
+# Control de inactividad, si se pasa el límite pregunta si quiere seguir
 def verificar_inactividad(tiempo_inicio, limite_segundos=5):
     if time.time() - tiempo_inicio > limite_segundos:
         while True:
@@ -28,6 +32,7 @@ def verificar_inactividad(tiempo_inicio, limite_segundos=5):
                 print("Respuesta inválida, intenta de nuevo")
     return False
 
+# Muestra todo el inventario con sus datos
 def mostrar_inventario():
     print("\nInventario actual")
     print(f"{'Código':<6} {'Producto':<20} {'Precio':>8} {'Cantidad':>10}")
@@ -35,6 +40,7 @@ def mostrar_inventario():
         print(f"{codigo:<6} {articulo['nombre']:<20} ${articulo['precio']:>7.2f} {articulo['stock']:>10}")
     print()
 
+# Verifica si hay artículos con poco stock
 def alerta_reabasto():
     hay_aviso = False
     for codigo, articulo in inventario.items():
@@ -46,9 +52,11 @@ def alerta_reabasto():
     if hay_aviso:
         print()
 
+# Calcula el descuento del 10% si se compra más de $1000
 def calcular_descuento(subtotal):
     return (subtotal * 0.10, subtotal * 0.90) if subtotal >= 1000 else (0.0, subtotal)
 
+# Función para pedir la cantidad y validarla
 def leer_cantidad():
     tiempo_inicio = time.time()
     dato = input("Cantidad: ").strip()
@@ -59,6 +67,7 @@ def leer_cantidad():
     except ValueError:
         return None
 
+# Proceso de una compra
 def realizar_compra():
     carrito = []
     print("\nNueva compra")
@@ -99,16 +108,30 @@ def realizar_compra():
     else:
         print("No hay descuento (menos de $1000).")
     print(f"Total a pagar: ${total:,.2f}\n")
+
+    # Guardar compra en memoria
     registro_compras.append({
         "id": len(registro_compras)+1,
-        "fecha": datetime.now().strftime("%d/%m/%Y"),
+        "fecha": fecha_sesion,
         "items": carrito,
         "subtotal": subtotal,
         "descuento": descuento,
         "total": total
     })
+
+    # También guardarlo en un archivo de texto
+    with open("registro_compras.txt", "a", encoding="utf-8") as f:
+        f.write(f"ID: {len(registro_compras)}\n")
+        f.write(f"Fecha: {fecha_sesion}\n")
+        for codigo, nombre, precio_unitario, cantidad, importe in carrito:
+            f.write(f"  {codigo} - {nombre} x{cantidad} @ ${precio_unitario:.2f} = ${importe:.2f}\n")
+        f.write(f"Subtotal: ${subtotal:.2f}\n")
+        f.write(f"Descuento: ${descuento:.2f}\n")
+        f.write(f"Total: ${total:.2f}\n")
+        f.write("-" * 40 + "\n\n")
     alerta_reabasto()
 
+# Imprime todas las compras registradas
 def ver_registro_compras():
     if not registro_compras:
         print("\nNo hay compras registradas.\n")
@@ -120,6 +143,7 @@ def ver_registro_compras():
         print(f"{ticket['id']:<4} {ticket['fecha']:<19} {total_articulos:>10} "
               f"${ticket['subtotal']:>10.2f} ${ticket['descuento']:>10.2f} ${ticket['total']:>10.2f}")
 
+# Permite rellenar stock de un producto
 def rellenar_stock():
     mostrar_inventario()
     tiempo_inicio = time.time()
@@ -136,6 +160,7 @@ def rellenar_stock():
     print(f"Se añadieron {cantidad} unidades a {inventario[codigo]['nombre']}.")
     print(f"Nuevo stock: {inventario[codigo]['stock']}\n")
 
+# Menú principal con opciones
 def menu():
     while True: 
         tiempo_inicio = time.time()
@@ -162,7 +187,9 @@ def menu():
         else:
             print("Opción no válida.\n")
 
+# Inicio de sesión con usuario, contraseña y fecha
 def iniciar_sesion():
+    global fecha_sesion
     while True:   
         tiempo_inicio = time.time()
         nombre = input('Ingresar Usuario: ')
@@ -174,6 +201,15 @@ def iniciar_sesion():
             print('\n')
             print(f'Bienvenido {nombre}')
             print('\n')
+            # Se pide la fecha al inicio y queda fija para toda la sesión
+            while True:
+                fecha_input = input("Ingresa la fecha de la sesión (dd/mm/aaaa): ").strip()
+                try:
+                    fecha_valida = datetime.strptime(fecha_input, "%d/%m/%Y")
+                    fecha_sesion = fecha_input
+                    break
+                except ValueError:
+                    print("Formato inválido. Intenta de nuevo con el formato dd/mm/aaaa.")
             print('Espere 5 segundos, estamos preparando todo')
             time.sleep(5)
             menu()
@@ -191,4 +227,5 @@ def iniciar_sesion():
             else:
                 print("Respuesta inválida")
 
+# Se arranca el programa desde aquí
 iniciar_sesion()
