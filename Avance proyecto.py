@@ -1,5 +1,5 @@
 from datetime import datetime
-import time, os
+import time, os, getpass
 
 # Diccionario de usuarios con su contraseña
 usuarios = {'Edgar': '123456'}
@@ -18,7 +18,7 @@ registro_compras = []    # aquí se guardan los tickets de las compras
 fecha_sesion = ""        # fecha que pide el sistema al inicio
 
 # Control de inactividad, si se pasa el límite pregunta si quiere seguir
-def verificar_inactividad(tiempo_inicio, limite_segundos=5):
+def verificar_inactividad(tiempo_inicio, limite_segundos=20):
     if time.time() - tiempo_inicio > limite_segundos:
         while True:
             dec = input("Límite de tiempo alcanzado, ¿Desea continuar?: ").lower()
@@ -26,7 +26,7 @@ def verificar_inactividad(tiempo_inicio, limite_segundos=5):
                 print("Regresando...\n")
                 return True
             elif dec == "no":
-                print("\nSaliendo del programa\n")
+                print("\nSaliendo del programa...\n")
                 os._exit(0)
             else:
                 print("Respuesta inválida, intenta de nuevo")
@@ -160,6 +160,16 @@ def rellenar_stock():
     print(f"Se añadieron {cantidad} unidades a {inventario[codigo]['nombre']}.")
     print(f"Nuevo stock: {inventario[codigo]['stock']}\n")
 
+def mostrar_politica_venta():
+    try:
+        with open("Politicas de ventas de ferretodo.txt", "r", encoding="utf-8") as f:
+            print(f.read())
+    except FileNotFoundError:
+        print("El archivo no existe")
+    except PermissionError:
+        print("Archivo bloqueado, cheque los permisos del txt")
+
+
 # Menú principal con opciones
 def menu():
     while True: 
@@ -169,19 +179,28 @@ def menu():
         print("2) Realizar compra")
         print("3) Ver registro de compras")
         print("4) Rellenar stock")
+        print("5) Nuestra política de venta")
         print("0) Salir")
         opcion = input("Elige una opción: ").strip()
         verificar_inactividad(tiempo_inicio)
         if opcion == "1":
+            print('\n')
             mostrar_inventario()
             alerta_reabasto()
         elif opcion == "2":
+            print('\n')
             realizar_compra()
         elif opcion == "3":
+            print('\n')
             ver_registro_compras()
         elif opcion == "4":
+            print('\n')
             rellenar_stock()
+        elif opcion == "5":
+            print('\n')
+            mostrar_politica_venta()
         elif opcion == "0":
+            print('\n')
             print("Gracias por usar FerreTodo.")
             break
         else:
@@ -195,7 +214,7 @@ def iniciar_sesion():
         nombre = input('Ingresar Usuario: ')
         verificar_inactividad(tiempo_inicio)
         tiempo_inicio = time.time()
-        contraseña = input('Ingresar contraseña: ')
+        contraseña = getpass.getpass('Ingresar contraseña: ')
         verificar_inactividad(tiempo_inicio)
         if nombre in usuarios and usuarios[nombre] == contraseña:
             print('\n')
@@ -210,7 +229,14 @@ def iniciar_sesion():
                     break
                 except ValueError:
                     print("Formato inválido. Intenta de nuevo con el formato dd/mm/aaaa.")
-            print('Espere 5 segundos, estamos preparando todo')
+            try:
+                with open("Politica_Calidad_FerreTodo.txt", "r", encoding="utf-8") as f:
+                    print(f.read())
+            except FileNotFoundError:
+                print("El archivo no existe")
+            except PermissionError:
+                print("Archivo bloqueado, cheque los permisos del txt")
+            print('Espere un momento, estamos preparando todo')
             time.sleep(5)
             menu()
             break
@@ -229,3 +255,4 @@ def iniciar_sesion():
 
 # Se arranca el programa desde aquí
 iniciar_sesion()
+
