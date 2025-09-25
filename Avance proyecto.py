@@ -209,7 +209,7 @@ def medir_tiempo():
         time.sleep(10)
         if inactividad:
             while True:
-                dec=input("Límite de tiempo alcanzado, desea continuar?: ").lower()
+                dec=input("Límite de tiempo alcanzado, ¿Desea continuar?: ").lower()
                 if dec=="si":
                     print("Regresando...")
                     print('\n')
@@ -247,6 +247,7 @@ archivo.write('Guantes \n')
 archivo.write('Casco de proteccion \n')
 
 archivo.close()
+
 
 
 
