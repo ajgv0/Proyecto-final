@@ -201,6 +201,8 @@ def iniciar_sesion():
             else:
                 print("Respuesta inválida")
 inactividad=True
+
+import os
 def medir_tiempo():
     global inactividad
     while True:
@@ -213,8 +215,8 @@ def medir_tiempo():
                     print('\n')
                     break
                 elif dec=="no":
-                    print("Saliendo del programa")
-                    exit()
+                    print("\nSaliendo del programa\n")
+                    os._exit(0)
                 else:
                     print("Respuesta inválida, intenta de nuevo")
         else:
@@ -245,6 +247,7 @@ archivo.write('Guantes \n')
 archivo.write('Casco de proteccion \n')
 
 archivo.close()
+
 
 
 
