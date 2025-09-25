@@ -14,9 +14,6 @@ inventario = {
 LIMITE_REABASTO = 5      # si baja de aquí, conviene surtir
 registro_compras = []    # tickets
 
-def pedir_input(texto):
-    return input(texto)
-
 def verificar_inactividad(tiempo_inicio, limite_segundos=5):
     if time.time() - tiempo_inicio > limite_segundos:
         while True:
@@ -54,7 +51,7 @@ def calcular_descuento(subtotal):
 
 def leer_cantidad():
     tiempo_inicio = time.time()
-    dato = pedir_input("Cantidad: ").strip()
+    dato = input("Cantidad: ").strip()
     verificar_inactividad(tiempo_inicio)
     try:
         cantidad = int(dato)
@@ -68,7 +65,7 @@ def realizar_compra():
     while True:
         mostrar_inventario()
         tiempo_inicio = time.time()
-        codigo = pedir_input("Código (ENTER para terminar): ").strip().upper()
+        codigo = input("Código (ENTER para terminar): ").strip().upper()
         verificar_inactividad(tiempo_inicio)
         if codigo == "":
             break
@@ -126,7 +123,7 @@ def ver_registro_compras():
 def rellenar_stock():
     mostrar_inventario()
     tiempo_inicio = time.time()
-    codigo = pedir_input("Código del producto a rellenar: ").strip().upper()
+    codigo = input("Código del producto a rellenar: ").strip().upper()
     verificar_inactividad(tiempo_inicio)
     if codigo not in inventario:
         print("Ese código no existe.\n")
@@ -148,7 +145,7 @@ def menu():
         print("3) Ver registro de compras")
         print("4) Rellenar stock")
         print("0) Salir")
-        opcion = pedir_input("Elige una opción: ").strip()
+        opcion = input("Elige una opción: ").strip()
         verificar_inactividad(tiempo_inicio)
         if opcion == "1":
             mostrar_inventario()
@@ -168,10 +165,10 @@ def menu():
 def iniciar_sesion():
     while True:   
         tiempo_inicio = time.time()
-        nombre = pedir_input('Ingresar Usuario: ')
+        nombre = input('Ingresar Usuario: ')
         verificar_inactividad(tiempo_inicio)
         tiempo_inicio = time.time()
-        contraseña = pedir_input('Ingresar contraseña: ')
+        contraseña = input('Ingresar contraseña: ')
         verificar_inactividad(tiempo_inicio)
         if nombre in usuarios and usuarios[nombre] == contraseña:
             print('\n')
@@ -184,7 +181,7 @@ def iniciar_sesion():
         else:
             print("Usuario y/o contraseña no encontrados")
             tiempo_inicio = time.time()
-            dec = pedir_input("¿Desea intentarlo de nuevo?: ")
+            dec = input("¿Desea intentarlo de nuevo?: ")
             verificar_inactividad(tiempo_inicio)
             if dec.lower() == 'si':
                 print('\n')
@@ -195,4 +192,3 @@ def iniciar_sesion():
                 print("Respuesta inválida")
 
 iniciar_sesion()
-
