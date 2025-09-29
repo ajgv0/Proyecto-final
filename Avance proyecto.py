@@ -205,9 +205,13 @@ def menu():
         elif opcion == "5":
             print('\n')
             mostrar_politica_venta()
+        elif opcion == "6":            
+            print('\nCerrando sesión...\n')
+            iniciar_sesion()
+            break
         elif opcion == "0":
             print('\n')
-            print("Gracias por usar FerreTodo.")
+            print("Gracias por usar FerreTodo, saliendo del programa.")
             break
         else:
             print("Opción no válida.\n")
