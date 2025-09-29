@@ -2,7 +2,7 @@ from datetime import datetime
 import time, os, getpass
 
 # Diccionario de usuarios con su contraseña
-usuarios = {'Edgar': '123456'}
+usuarios = {'Edgar': '123456', 'Ángel': '654321'}
 
 # Inventario inicial con códigos, nombre, precio y stock
 inventario = {
@@ -176,6 +176,25 @@ def mostrar_politica_venta():
     except PermissionError:
         print("Archivo bloqueado, cheque los permisos del txt")
 
+def sugerencia_usuario():
+    while True:
+        fecha=input("Ingresa la fecha (dd/mm/aaaa)").strip()
+        try:
+            fecha_valida = datetime.strptime(fecha, "%d/%m/%Y")
+            break
+        except ValueError:
+            print("Formato inválido, la fecha tiene que estar en dd/mm/aaaa")
+    try:
+        with open("Quejas del usuario.txt", "w", encoding="utf-8") as f:
+            f.write(f"Fecha: {fecha}\n")
+            titulo="FERRETODO"
+            f.write(f"{titulo}\n")
+            f.write(f"{'_'*len(titulo)}\n")
+            f.write("Escriba sus quejas/sugerencias en el espacio inferior: \n")
+        print("Archivo generado, busca tu archivo de sugerencias en la carpeta del programa")
+        print("Manda tu archivo a ferretodo@fakemail.com, tu correo será respondido muy pronto")
+    except:
+        print("Error al crear el archivo")
 # Menú principal
 def menu():
     while True: 
@@ -186,6 +205,8 @@ def menu():
         print("3) Ver registro de compras")
         print("4) Rellenar stock")
         print("5) Nuestra política de venta")
+        print("6) ¿Tienes comentarios?, ¡Escríbenos!")
+        print("7) Cerrar Sesión e Iniciar con una cuenta nueva")
         print("0) Salir")
         opcion = input("Elige una opción: ").strip()
         verificar_inactividad(tiempo_inicio)
@@ -205,7 +226,10 @@ def menu():
         elif opcion == "5":
             print('\n')
             mostrar_politica_venta()
-        elif opcion == "6":            
+        elif opcion == "6":
+            print('\n')      
+            sugerencia_usuario()
+        elif opcion == "7":            
             print('\nCerrando sesión...\n')
             iniciar_sesion()
             break
