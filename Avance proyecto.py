@@ -169,7 +169,7 @@ def rellenar_stock():
 
 def mostrar_politica_venta():
     try:
-        with open("Politicas de ventas de ferretodo.txt", "r", encoding="utf-8") as f:
+        with open("Politicas de tienda.txt", "r", encoding="utf-8") as f:
             print(f.read())
     except FileNotFoundError:
         print("El archivo no existe")
@@ -204,7 +204,7 @@ def menu():
         print("2) Realizar compra")
         print("3) Ver registro de compras")
         print("4) Rellenar stock")
-        print("5) Nuestra política de venta")
+        print("5) Nuestra política")
         print("6) ¿Tienes comentarios?, ¡Escríbenos!")
         print("7) Cerrar Sesión e Iniciar con una cuenta nueva")
         print("0) Salir")
@@ -257,7 +257,7 @@ def iniciar_sesion():
             fecha_sesion = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             print(f"Fecha de sesión: {fecha_sesion}\n")
             try:
-                with open("Politica_Calidad_FerreTodo.txt", "r", encoding="utf-8") as f:
+                with open("Politica de ventas.txt", "r", encoding="utf-8") as f:
                     print(f.read())
             except FileNotFoundError:
                 print("El archivo no existe")
